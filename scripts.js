@@ -1,11 +1,9 @@
 var botao = document.getElementById("botao");
 botao.addEventListener("click", alertar, false);
+
 var nome = document.getElementById("nome");
- 
 var email = document.getElementById("email");
- 
 var saida = document.getElementById("saida-de-dados");
- 
 var telefone = document.getElementById("telefone");
 var cep = document.getElementById("cep");
 var logradouro = document.getElementById("logradouro");
@@ -23,6 +21,14 @@ function alertar(event){
     //      alert("este número é par!");
     //  }
      
+    //Validação dos dados
+    if(cep.value.length < 8){
+        alert('Entre com um CEP válido!');
+        return;
+    }
+
+    //formatar os dados
+    cep.value = cep.value.replace('-','');
     const url = `https://viacep.com.br/ws/${cep.value}/json`;
  
     fetch(url)
@@ -36,6 +42,8 @@ function alertar(event){
             cidade.value = dadosDoEndereco.localidade;
             estado.value = dadosDoEndereco.uf;
             complemento.value = dadosDoEndereco.complemento;
+
+            saidaDeDados();  // chamada da função
         }
     )
     .catch(
@@ -43,6 +51,10 @@ function alertar(event){
         alert(e.message());
     });
        
+}
+
+function saidaDeDados(){
+
     saida.innerText = "Nome: " + nome.value +
           "\n Email: " + email.value +
           "\n Telefone: " + telefone.value +
@@ -54,6 +66,3 @@ function alertar(event){
           "\n Cidade: " + cidade.value +
           "\n Estado: " + estado.value;
 }
-
-
-                                                                                      
